@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Curso de Vue2 - Práctica 1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link rel="stylesheet" href="./app.css">
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <main class="vue-Todo">
+        <section class="vue-Todo_Header">
+          <p class="vue-Todo_HeaderDate">
+            {{ todoDate }}
+          </p>
+          <p
+            class="vue-Todo_HeaderTaskCounter"
+            v-if="!taskListEmpty"
+          >
+            Tienes {{ taskList.length }} tareas
+          </p>
+          <form @submit.prevent>
+            <button
+              class="btn-floating orange waves-effect waves-light"
+              @click="addTask"
+            >
+              <i class="material-icons">add</i>
+            </button>
+            <div class="vue-Todo_AddTaskInput input-field col s6">
+              <input
+                id="input_task"
+                type="text"
+                class="validate"
+                v-model="taskItem"
+                ref="taskInput"
+              >
+              <label for="input_task">Añadir una tarea</label>
+            </div>
+          </form>
+        </section>
+        <section class="vue-Todo_Body">
+          <ul class="collection with-header">
+            <li class="collection-header">
+              <input
+                v-if="isEditing"
+                :value="todoTitle"
+                @keyup.enter="setTitle($event)"
+                @blur="isEditing = false"
+              >
+              <h3
+                v-else
+                @click="isEditing = true"
+              >
+                {{ todoTitle }}
+              </h3>
+            </li>
+            <li v-for="(task, index) in taskList" class="collection-item">
+              <p class="collection-item__text">
+                {{ task }}
+              </p>
+              <button
+                class="vue-Todo_Button-remove"
+                @click="removeTodo(index)"
+              >
+                Eliminar
+              </button>
+            </li>
+            <div
+              v-if="taskListEmpty"
+              class="vue-Todo-empty"
+              @click="addTaskFocus"
+            >
+              <p>No hay tareas: <a>Añade una nueva</a></p>
+            </div>
+          </ul>
+        </section>
+      </main>
+      <pre>{{$data}}</pre>
+    </div>
+    <!-- Javascript -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="./main.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('select').material_select();
+      });
+    </script>
+  </body>
+</html>
